@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A Simple SPA For Employees</title>
+    <script type="application/javascript">
+        function displayAllEmployees() {
+            clearEmployeesTable();
+            fetchAllEmployees().then(displayEmployees);
+        }
+
+        function displayEmployeesWithPosition() {
+            clearEmployeesTable();
+            const position = readEmployeePosition();
+            fetchEmployeesWithPosition(position).then(displayEmployees);
+        }
+
+        function displayEmployee(name) {
+            fetchEmployeeWithName(name).then(t =>
+                employeeDisplay().innerHTML
+                    = `${t.position} position employee ${t.employeeName} with id "${t.id}"`
+            );
+        }
+
+        function deleteEmployee(name) {
+            deleteEmployeeWithName(name).then(() => {
+                clearEmployeeDisplay();
+                displayAllEmployees();
+            });
+        }
+
+        function deleteEmployeeWithName(name) {
+            return sendDELETE(`/employees/${name}`);
+        }
+
+        function addNewEmployee() {
+            const employee = buildEmployeeFromForm();
+            sendPOST("/employees", employee).then(response => {
+                if (response.ok) {
+                    displayAllEmployees();
+                } else {
+                    response.json().then(error => alert(error.message));
+                }
+            });
+        }
+
+        function buildEmployeeFromForm() {
+            return {
+                id: getEmployeeFormValue("newEmployeeId"),
+                employeeName: getEmployeeFormValue("newEmployeeName"),
+                password: getEmployeeFormValue("newEmployeePassword"),
+                position: getEmployeeFormValue("newEmployeePosition"),
+            };
+        }
+
+        function getEmployeeFormValue(id) {
+            return document.getElementById(id).value;
+        }
+
+        function employeeDisplay() {
+            return document.getElementById("currentEmployeeDisplay");
+        }
+
+        function readEmployeePosition() {
+            return document.positionForm.position.value;
+        }
+
+        function fetchEmployeesWithPosition(position) {
+            return sendGET(`/employees/byPosition/${position}`);
+        }
+
+        function fetchEmployeeWithName(name) {
+            return sendGET(`/employees/byName/${name}`);
+        }
+
+        function fetchAllEmployees() {
+            return sendGET("/employees");
+        }
+
+        function sendGET(url) {
+            return fetch(
+                url,
+                { headers: { 'Accept': 'application/json' } }
+            ).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return [];
+            });
+        }
+
+        function sendPOST(url, data) {
+            return fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+        }
+
+        function sendDELETE(url) {
+            return fetch(url, {
+                method: "DELETE"
+            });
+        }
+
+        function employeesTable() {
+            return document.getElementById("employeesTableBody");
+        }
+
+        function clearEmployeesTable() {
+            employeesTable().innerHTML = "";
+        }
+
+        function clearEmployeeDisplay() {
+            employeeDisplay().innerText = "None";
+        }
+
+        function displayEmployees(employees) {
+            const employeesTableBody = employeesTable();
+            employees.forEach(employee => {
+                const newRow = employeeRow(employee);
+                employeesTableBody.appendChild(newRow);
+            });
+        }
+
+        function employeeRow(employee) {
+            return tr([
+                td(employee.employeeName),
+                td(employee.position),
+                td(viewLink(employee.employeeName)),
+                td(deleteLink(employee.employeeName)),
+            ]);
+        }
+
+        function tr(children) {
+            const node = document.createElement("tr");
+            children.forEach(child => node.appendChild(child));
+            return node;
+        }
+
+        function td(content) {
+            const node = document.createElement("td");
+            if (content instanceof Element) {
+                node.appendChild(content);
+            } else {
+                node.appendChild(document.createTextNode(content));
+            }
+            return node;
+        }
+
+        function viewLink(employeeName) {
+            const node = document.createElement("a");
+            node.setAttribute(
+                "href", `javascript:displayEmployee("${employeeName}")`
+            );
+            node.appendChild(document.createTextNode("view"));
+            return node;
+        }
+
+        function deleteLink(employeeName) {
+            const node = document.createElement("a");
+            node.setAttribute(
+                "href", `javascript:deleteEmployee("${employeeName}")`
+            );
+            node.appendChild(document.createTextNode("delete"));
+            return node;
+        }
+    </script>
+</head>
+<body onload="displayAllEmployees()">
+<h1>Employee Manager Client</h1>
+<form action="javascript:displayAllEmployees()">
+    <span>View all the employees</span>
+    <input type="submit" value="Go">
+</form>
+<form name="positionForm" action="javascript:displayEmployeesWithPosition()">
+    <span>View employees with position</span>
+    <select name="position">
+        <option value="Manager">Manager</option>
+        <option value="General">General</option>
+    </select>
+    <input type="submit" value="Go">
+</form>
+<form name="addEmployeeForm" action="javascript:addNewEmployee()">
+    <span>Create new employee with</span>
+    <label for="newEmployeeName">name</label>
+    <input type="text" id="newEmployeeName" name="newEmployeeName" size="10">
+    <label for="newEmployeeId">id</label>
+    <input type="text" id="newEmployeeId" name="newEmployeeId" size="20">
+    <label for="newEmployeePassword">password</label>
+    <input type="password" id="newEmployeePassword" name="newEmployeePassword" size="20">
+    <label for="newEmployeePosition">position</label>
+    <select id="newEmployeePosition" name="newEmployeePosition">
+        <option value="Manager">Manager</option>
+        <option value="General">General</option>
+    </select>
+    <input type="submit" value="Go">
+</form>
+<hr>
+<div>
+    Current employee is <em id="currentEmployeeDisplay">None</em>
+</div>
+<hr>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="employeesTableBody">
+    </tbody>
+</table>
+</body>
+</html>
