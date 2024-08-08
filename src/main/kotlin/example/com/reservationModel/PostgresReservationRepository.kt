@@ -9,7 +9,7 @@ class PostgresReservationRepository : ReservationRepository {
         ReservationDAO.all().map(::reservationDaoToModel)
     }
 
-    override suspend fun addReservation(reservation: Reservation) : Unit {
+    override suspend fun addReservation(reservation: Reservation): Unit {
         reservationSuspendTransaction {
             // Check if the employee exists
             val employeeExists = EmployeeTable.select { EmployeeTable.employeeId eq reservation.employeeId }.count() > 0
@@ -24,7 +24,8 @@ class PostgresReservationRepository : ReservationRepository {
                 employeeId = reservation.employeeId
                 customerId = reservation.customerId
                 reservationDate = reservation.reservationDate
-                customerPhoneNumber = customer[CustomerTable.customerPhoneNumber]  // Get phone number from customer table
+                customerPhoneNumber =
+                    customer[CustomerTable.customerPhoneNumber]  // Get phone number from customer table
                 detail = reservation.detail.toString()
                 comment = reservation.comment
             }

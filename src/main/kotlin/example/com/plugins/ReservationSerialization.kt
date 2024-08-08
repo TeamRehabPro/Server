@@ -12,7 +12,7 @@ import io.ktor.server.routing.*
 
 fun Application.reservationConfigureSerialization(repository: ReservationRepository) {
     routing {
-        route("/reservations"){
+        route("/reservations") {
             get {
                 val reservations = repository.allReservations()
                 call.respond(reservations)
