@@ -12,12 +12,12 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import org.jetbrains.exposed.sql.javatime.date
 
 object EmployeeTable : IntIdTable("employees") {
-    val employeeId = varchar("employeeId", 50).uniqueIndex()
-    val employeeName = varchar("employeeName", 50)
-    val employeePassword = varchar("employeePassword", 50)
+    val employeeId = varchar("employee_id", 50).uniqueIndex()
+    val employeeName = varchar("employee_name", 50)
+    val employeePassword = varchar("employee_password", 50)
     val position = varchar("position", 50)
-    val employeePhoneNumber = varchar("employeePhoneNumber", 50)
-    val joiningDate = date("joiningDate")
+    val employeePhoneNumber = varchar("employee_phone_number", 50)
+    val joiningDate = date("joining_date")
 }
 
 class EmployeeDAO(id: EntityID<Int>) : IntEntity(id) {

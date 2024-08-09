@@ -1,5 +1,6 @@
 package example.com
 
+import example.com.attendanceModel.PostgresAttendanceRepository
 import example.com.customerModel.PostgresCustomerRepository
 import example.com.employeeModel.PostgresEmployeeRepository
 import example.com.plugins.*
@@ -21,9 +22,11 @@ fun Application.module() {
     val employeeRepository = PostgresEmployeeRepository()
     val customerRepository = PostgresCustomerRepository()
     val reservationRepository = PostgresReservationRepository()
+    val attendanceRepository = PostgresAttendanceRepository()
     employeeConfigureSerialization(employeeRepository)
     customerConfigureSerialization(customerRepository)
     reservationConfigureSerialization(reservationRepository)
+    attendanceConfigureSerialization(attendanceRepository)
     configureDatabases()
     configureRouting()
 }

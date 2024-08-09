@@ -13,10 +13,10 @@ import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 object AttendanceTable : IntIdTable("attendance") {
-    val employeeId = varchar("employeeId", 50)
+    val employeeId = varchar("employee_id", 50)
     val date = date("date")
-    val checkInTime = time("checkInTime")
-    val checkOutTime = time("checkOutTime")
+    val checkInTime = time("check_in_time")
+    val checkOutTime = time("check_out_time")
     val status = varchar("status", 20)
 }
 

@@ -13,10 +13,10 @@ import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 object CustomerTable : IntIdTable("customers") {
-    val customerName = varchar("customerName", 50)
-    val customerGender = varchar("customerGender", 50)
-    val customerBirthDate = date("customerBirthDate")
-    val customerPhoneNumber = varchar("customerPhoneNumber", 50)
+    val customerName = varchar("customer_name", 50)
+    val customerGender = varchar("customer_gender", 50)
+    val customerBirthDate = date("customer_birth_date")
+    val customerPhoneNumber = varchar("customer_phone_number", 50)
     val injury = varchar("injury", 50)
 }
 
