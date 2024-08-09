@@ -17,7 +17,7 @@ fun Application.employeeConfigureSerialization(repository: EmployeeRepository) {
                 val employees = repository.allEmployees()
                 call.respond(employees)
             }
-            get("/byName/{employeeName}") {
+            get("/name/{employeeName}") {
                 val name = call.parameters["employeeName"]
                 if (name == null) {
                     call.respond(HttpStatusCode.BadRequest)
@@ -30,7 +30,7 @@ fun Application.employeeConfigureSerialization(repository: EmployeeRepository) {
                 }
                 call.respond(employee)
             }
-            get("/byPosition/{position}") {
+            get("/position/{position}") {
                 val positionAsText = call.parameters["position"]
                 if (positionAsText == null) {
                     call.respond(HttpStatusCode.BadRequest)

@@ -1,5 +1,6 @@
 package example.com.plugins
 
+import example.com.customerModel.Gender
 import example.com.reservationModel.Reservation
 import example.com.reservationModel.ReservationRepository
 import io.ktor.http.*
@@ -15,6 +16,24 @@ fun Application.reservationConfigureSerialization(repository: ReservationReposit
             get {
                 val reservations = repository.allReservations()
                 call.respond(reservations)
+            }
+            get("/id/{employeeId}") {
+                val id = call.parameters["employeeId"]
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@get
+                }
+                try {
+                    val reservations = repository.reservationById(id)
+
+                    if (reservations.isEmpty()) {
+                        call.respond(HttpStatusCode.NotFound)
+                        return@get
+                    }
+                    call.respond(reservations)
+                } catch (ex: IllegalArgumentException) {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
             }
             post {
                 try {

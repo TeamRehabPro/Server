@@ -17,7 +17,7 @@ fun Application.customerConfigureSerialization(repository: CustomerRepository) {
                 val customers = repository.allCustomers()
                 call.respond(customers)
             }
-            get("/byName/{customerName}") {
+            get("/name/{customerName}") {
                 val name = call.parameters["customerName"]
                 if (name == null) {
                     call.respond(HttpStatusCode.BadRequest)
@@ -30,7 +30,7 @@ fun Application.customerConfigureSerialization(repository: CustomerRepository) {
                 }
                 call.respond(customer)
             }
-            get("/byGender/{customerGender}") {
+            get("/gender/{customerGender}") {
                 val genderAsText = call.parameters["customerGender"]
                 if (genderAsText == null) {
                     call.respond(HttpStatusCode.BadRequest)

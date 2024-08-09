@@ -31,4 +31,10 @@ class PostgresReservationRepository : ReservationRepository {
             }
         }
     }
+
+    override suspend fun reservationById(employeeId: String): List<Reservation> = reservationSuspendTransaction {
+        ReservationDAO
+            .find { (ReservationTable.employeeId eq employeeId) }
+            .map(::reservationDaoToModel)
+    }
 }
