@@ -5,11 +5,11 @@ import example.com.db.*
 
 class PostgresAttendanceRepository : AttendanceRepository {
     override suspend fun allAttendance(): List<Attendance> = attendanceSuspendTransaction {
-        AttendanceDao.all().map(::attendanceDaoToModel)
+        AttendanceDAO.all().map(::attendanceDaoToModel)
     }
 
     override suspend fun addAttendance(attendance: Attendance): Unit = attendanceSuspendTransaction {
-        AttendanceDao.new {
+        AttendanceDAO.new {
             employeeId = attendance.employeeId
             date = attendance.date
             checkInTime = attendance.checkInTime

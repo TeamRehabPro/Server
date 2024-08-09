@@ -20,8 +20,8 @@ object AttendanceTable : IntIdTable("attendance") {
     val status = varchar("status", 20)
 }
 
-class AttendanceDao(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<AttendanceDao>(AttendanceTable)
+class AttendanceDAO(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<AttendanceDAO>(AttendanceTable)
 
     var employeeId by AttendanceTable.employeeId
     var date by AttendanceTable.date
@@ -33,7 +33,7 @@ class AttendanceDao(id: EntityID<Int>) : IntEntity(id) {
 suspend fun <T> attendanceSuspendTransaction(block: Transaction.() -> T): T =
     newSuspendedTransaction(Dispatchers.IO, statement = block)
 
-fun attendanceDaoToModel(dao: AttendanceDao) = Attendance(
+fun attendanceDaoToModel(dao: AttendanceDAO) = Attendance(
     dao.employeeId,
     dao.date,
     dao.checkInTime,

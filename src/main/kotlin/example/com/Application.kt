@@ -3,6 +3,7 @@ package example.com
 import example.com.attendanceModel.PostgresAttendanceRepository
 import example.com.customerModel.PostgresCustomerRepository
 import example.com.employeeModel.PostgresEmployeeRepository
+import example.com.noticeModel.PostgresNoticeRepository
 import example.com.plugins.*
 import example.com.reservationModel.PostgresReservationRepository
 import io.ktor.serialization.kotlinx.json.*
@@ -23,10 +24,12 @@ fun Application.module() {
     val customerRepository = PostgresCustomerRepository()
     val reservationRepository = PostgresReservationRepository()
     val attendanceRepository = PostgresAttendanceRepository()
+    val noticeRepository = PostgresNoticeRepository()
     employeeConfigureSerialization(employeeRepository)
     customerConfigureSerialization(customerRepository)
     reservationConfigureSerialization(reservationRepository)
     attendanceConfigureSerialization(attendanceRepository)
+    noticeConfigureSerialization(noticeRepository)
     configureDatabases()
     configureRouting()
 }
