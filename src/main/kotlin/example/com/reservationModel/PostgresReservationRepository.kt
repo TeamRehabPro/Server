@@ -22,11 +22,12 @@ class PostgresReservationRepository : ReservationRepository {
             ReservationDAO.new {
                 employeeId = reservation.employeeId
                 customerId = reservation.customerId
-                reservationDate = reservation.reservationDate
                 customerPhoneNumber =
                     customer[CustomerTable.customerPhoneNumber]  // Get phone number from customer table
                 detail = reservation.detail.toString()
                 comment = reservation.comment
+                reservationDate = reservation.reservationDate
+                reservationTime = reservation.reservationTime
             }
         }
     }

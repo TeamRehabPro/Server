@@ -1,8 +1,10 @@
 package example.com.reservationModel
 
-import example.com.db.LocalDateTimeSerializer
+import example.com.db.LocalDateSerializer
+import example.com.db.LocalTimeSerializer
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 
 enum class Detail {
     Manual, Physical,
@@ -12,8 +14,9 @@ enum class Detail {
 data class Reservation(
     val employeeId: String,
     val customerId: Int,
-    @Serializable(with = LocalDateTimeSerializer::class) val reservationDate: LocalDateTime,
     val customerPhoneNumber: String,
     val detail: Detail,
-    val comment: String
+    val comment: String,
+    @Serializable(with = LocalDateSerializer::class) val reservationDate: LocalDate,
+    @Serializable(with = LocalTimeSerializer::class) val reservationTime: LocalTime
 )

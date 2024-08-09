@@ -9,16 +9,18 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Transaction
-import org.jetbrains.exposed.sql.javatime.datetime
+import org.jetbrains.exposed.sql.javatime.date
+import org.jetbrains.exposed.sql.javatime.time
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 object ReservationTable : IntIdTable("reservations") {
     val employeeId = varchar("employee_id", 50)
     val customerId = integer("customer_id")
-    val reservationDate = datetime("reservation_date")
     val customerPhoneNumber = varchar("customer_phone_number", 50)
     val detail = varchar("detail", 50)
     val comment = varchar("comment", 50)
+    val reservationDate = date("reservation_date")
+    val reservationTime = time("reservation_time")
 }
 
 class ReservationDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -26,10 +28,11 @@ class ReservationDAO(id: EntityID<Int>) : IntEntity(id) {
 
     var employeeId by ReservationTable.employeeId
     var customerId by ReservationTable.customerId
-    var reservationDate by ReservationTable.reservationDate
     var customerPhoneNumber by ReservationTable.customerPhoneNumber
     var detail by ReservationTable.detail
     var comment by ReservationTable.comment
+    var reservationDate by ReservationTable.reservationDate
+    var reservationTime by ReservationTable.reservationTime
 }
 
 suspend fun <T> reservationSuspendTransaction(block: Transaction.() -> T): T =
@@ -39,8 +42,9 @@ suspend fun <T> reservationSuspendTransaction(block: Transaction.() -> T): T =
 fun reservationDaoToModel(dao: ReservationDAO) = Reservation(
     dao.employeeId,
     dao.customerId,
-    dao.reservationDate,
     dao.customerPhoneNumber,
     Detail.valueOf(dao.detail),
-    dao.comment
+    dao.comment,
+    dao.reservationDate,
+    dao.reservationTime
 )
