@@ -1,6 +1,5 @@
 package example.com.plugins
 
-import example.com.employeeModel.Employee
 import example.com.reservationModel.Reservation
 import example.com.reservationModel.ReservationRepository
 import io.ktor.http.*

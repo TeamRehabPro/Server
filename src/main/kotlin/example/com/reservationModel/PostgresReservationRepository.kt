@@ -1,7 +1,6 @@
 package example.com.reservationModel
 
 import example.com.db.*
-import example.com.employeeModel.Employee
 import org.jetbrains.exposed.sql.select
 
 class PostgresReservationRepository : ReservationRepository {

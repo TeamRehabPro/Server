@@ -1,8 +1,6 @@
 package example.com.db
 
 
-import example.com.employeeModel.Employee
-import example.com.employeeModel.Position
 import example.com.reservationModel.Detail
 import example.com.reservationModel.Reservation
 import kotlinx.coroutines.Dispatchers

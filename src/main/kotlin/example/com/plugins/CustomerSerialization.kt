@@ -3,12 +3,9 @@ package example.com.plugins
 import example.com.customerModel.Customer
 import example.com.customerModel.CustomerRepository
 import example.com.customerModel.Gender
-import example.com.employeeModel.Employee
 import io.ktor.http.*
 import io.ktor.serialization.*
-import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
