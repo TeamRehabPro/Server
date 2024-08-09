@@ -1,6 +1,5 @@
 package example.com.plugins
 
-import example.com.customerModel.Gender
 import example.com.reservationModel.Reservation
 import example.com.reservationModel.ReservationRepository
 import io.ktor.http.*
@@ -24,7 +23,7 @@ fun Application.reservationConfigureSerialization(repository: ReservationReposit
                     return@get
                 }
                 try {
-                    val reservations = repository.reservationById(id)
+                    val reservations = repository.reservationsById(id)
 
                     if (reservations.isEmpty()) {
                         call.respond(HttpStatusCode.NotFound)
