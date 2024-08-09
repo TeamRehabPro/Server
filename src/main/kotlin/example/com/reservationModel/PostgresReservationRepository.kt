@@ -1,7 +1,9 @@
 package example.com.reservationModel
 
 import example.com.db.*
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
+import java.time.LocalDate
 
 class PostgresReservationRepository : ReservationRepository {
     override suspend fun allReservations(): List<Reservation> = reservationSuspendTransaction {
@@ -37,4 +39,11 @@ class PostgresReservationRepository : ReservationRepository {
             .find { (ReservationTable.employeeId eq employeeId) }
             .map(::reservationDaoToModel)
     }
+
+    override suspend fun reservationsByIdAndDate(employeeId: String, reservationDate: LocalDate): List<Reservation> =
+        reservationSuspendTransaction {
+            ReservationDAO
+                .find { (ReservationTable.employeeId eq employeeId) and (ReservationTable.reservationDate eq reservationDate) }
+                .map(::reservationDaoToModel)
+        }
 }
