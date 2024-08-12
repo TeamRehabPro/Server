@@ -10,27 +10,25 @@ class PostgresReservationRepository : ReservationRepository {
         ReservationDAO.all().map(::reservationDaoToModel)
     }
 
-    override suspend fun addReservation(reservation: Reservation): Unit {
-        reservationSuspendTransaction {
-            // Check if the employee exists
-            val employeeExists = EmployeeTable.select { EmployeeTable.employeeId eq reservation.employeeId }.count() > 0
-            if (!employeeExists) throw IllegalArgumentException("Employee with id ${reservation.employeeId} does not exist")
+    override suspend fun addReservation(reservation: Reservation): Unit = reservationSuspendTransaction {
+        // Check if the employee exists
+        val employeeExists = EmployeeTable.select { EmployeeTable.employeeId eq reservation.employeeId }.count() > 0
+        if (!employeeExists) throw IllegalArgumentException("Employee with id ${reservation.employeeId} does not exist")
 
-            // Check if the customer exists
-            val customer = CustomerTable.select { CustomerTable.id eq reservation.customerId }.singleOrNull()
-            if (customer == null) throw IllegalArgumentException("Customer with id ${reservation.customerId} does not exist")
+        // Check if the customer exists
+        val customer = CustomerTable.select { CustomerTable.id eq reservation.customerId }.singleOrNull()
+        if (customer == null) throw IllegalArgumentException("Customer with id ${reservation.customerId} does not exist")
 
-            // Create new reservation
-            ReservationDAO.new {
-                employeeId = reservation.employeeId
-                customerId = reservation.customerId
-                customerPhoneNumber =
-                    customer[CustomerTable.customerPhoneNumber]  // Get phone number from customer table
-                detail = reservation.detail.toString()
-                comment = reservation.comment
-                reservationDate = reservation.reservationDate
-                reservationTime = reservation.reservationTime
-            }
+        // Create new reservation
+        ReservationDAO.new {
+            employeeId = reservation.employeeId
+            customerId = reservation.customerId
+            customerPhoneNumber =
+                customer[CustomerTable.customerPhoneNumber]  // Get phone number from customer table
+            detail = reservation.detail.toString()
+            comment = reservation.comment
+            reservationDate = reservation.reservationDate
+            reservationTime = reservation.reservationTime
         }
     }
 
