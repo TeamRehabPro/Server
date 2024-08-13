@@ -33,6 +33,7 @@ fun Application.module() {
     attendanceConfigureSerialization(attendanceRepository)
     noticeConfigureSerialization(noticeRepository)
     profileConfigureSerialization(profileRepository)
+    configureAuthentication()
     configureDatabases()
     configureRouting()
 }
