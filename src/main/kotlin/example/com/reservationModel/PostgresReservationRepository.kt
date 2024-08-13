@@ -29,6 +29,8 @@ class PostgresReservationRepository : ReservationRepository {
             comment = reservation.comment
             reservationDate = reservation.reservationDate
             reservationTime = reservation.reservationTime
+            customerName =
+                customer[CustomerTable.customerName]
         }
     }
 
