@@ -21,6 +21,7 @@ object ReservationTable : IntIdTable("reservations") {
     val comment = varchar("comment", 50)
     val reservationDate = date("reservation_date")
     val reservationTime = time("reservation_time")
+    val customerName = varchar("customer_name",50)
 }
 
 class ReservationDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -33,6 +34,7 @@ class ReservationDAO(id: EntityID<Int>) : IntEntity(id) {
     var comment by ReservationTable.comment
     var reservationDate by ReservationTable.reservationDate
     var reservationTime by ReservationTable.reservationTime
+    var customerName by ReservationTable.customerName
 }
 
 suspend fun <T> reservationSuspendTransaction(block: Transaction.() -> T): T =
@@ -46,5 +48,6 @@ fun reservationDaoToModel(dao: ReservationDAO) = Reservation(
     Detail.valueOf(dao.detail),
     dao.comment,
     dao.reservationDate,
-    dao.reservationTime
+    dao.reservationTime,
+    dao.customerName
 )

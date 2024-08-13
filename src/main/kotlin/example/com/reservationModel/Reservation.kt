@@ -18,5 +18,6 @@ data class Reservation(
     val detail: Detail,
     val comment: String,
     @Serializable(with = LocalDateSerializer::class) val reservationDate: LocalDate,
-    @Serializable(with = LocalTimeSerializer::class) val reservationTime: LocalTime
+    @Serializable(with = LocalTimeSerializer::class) val reservationTime: LocalTime,
+    val customerName: String,
 )
