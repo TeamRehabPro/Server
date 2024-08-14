@@ -4,6 +4,7 @@ import example.com.attendanceModel.PostgresAttendanceRepository
 import example.com.customerModel.PostgresCustomerRepository
 import example.com.employeeModel.PostgresEmployeeRepository
 import example.com.leaveModel.PostgresLeaveRepository
+import example.com.messageModel.PostgresMessageRepository
 import example.com.noticeModel.PostgresNoticeRepository
 import example.com.plugins.*
 import example.com.profileModel.PostgresProfileRepository
@@ -29,6 +30,7 @@ fun Application.module() {
     val noticeRepository = PostgresNoticeRepository()
     val profileRepository = PostgresProfileRepository()
     val leaveRepository = PostgresLeaveRepository()
+    val messageRepository = PostgresMessageRepository()
     employeeConfigureSerialization(employeeRepository)
     customerConfigureSerialization(customerRepository)
     reservationConfigureSerialization(reservationRepository)
@@ -36,6 +38,7 @@ fun Application.module() {
     noticeConfigureSerialization(noticeRepository)
     profileConfigureSerialization(profileRepository)
     leaveConfigureSerialization(leaveRepository)
+    messageConfigureSerialization(messageRepository)
     configureAuthentication()
     configureDatabases()
     configureRouting()
