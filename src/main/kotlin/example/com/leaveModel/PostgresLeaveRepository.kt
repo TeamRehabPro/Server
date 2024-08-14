@@ -4,6 +4,7 @@ import example.com.db.LeaveDAO
 import example.com.db.LeaveTable
 import example.com.db.leaveDaoToModel
 import example.com.db.leaveSuspendTransaction
+import org.jetbrains.exposed.sql.and
 import java.time.LocalDate
 
 
@@ -26,4 +27,11 @@ class PostgresLeaveRepository : LeaveRepository {
             comment = leave.comment
         }
     }
+
+    override suspend fun leavesByIdAndDate(employeeId: String, date: LocalDate): List<Leave> =
+        leaveSuspendTransaction {
+            LeaveDAO
+                .find { (LeaveTable.employeeId eq employeeId) and (LeaveTable.date eq date) }
+                .map(::leaveDaoToModel)
+        }
 }
