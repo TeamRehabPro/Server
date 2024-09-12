@@ -30,7 +30,7 @@ class ProfileDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> profileSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 fun profileDaoToModel(dao: ProfileDAO) = Profile(
     dao.employeeId,

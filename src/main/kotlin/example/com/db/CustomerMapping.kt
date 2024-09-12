@@ -31,7 +31,7 @@ class CustomerDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> customerSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 fun customerDaoToModel(dao: CustomerDAO) = Customer(
     dao.customerName,
