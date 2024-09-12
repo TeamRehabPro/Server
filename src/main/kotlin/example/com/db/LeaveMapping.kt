@@ -28,7 +28,7 @@ class LeaveDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> leaveSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 fun leaveDaoToModel(dao: LeaveDAO) = Leave(
     dao.employeeId,

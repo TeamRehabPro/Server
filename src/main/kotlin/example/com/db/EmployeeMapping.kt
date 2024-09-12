@@ -32,7 +32,7 @@ class EmployeeDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> employeeSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 
 fun employeeDaoToModel(dao: EmployeeDAO) = Employee(

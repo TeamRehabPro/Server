@@ -27,7 +27,7 @@ class NoticeDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> noticeSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 fun noticeDaoToModel(dao: NoticeDAO) = Notice(
     dao.employeeId,

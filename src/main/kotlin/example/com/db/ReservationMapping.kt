@@ -38,7 +38,7 @@ class ReservationDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> reservationSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 
 fun reservationDaoToModel(dao: ReservationDAO) = Reservation(

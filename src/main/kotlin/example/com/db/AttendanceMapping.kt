@@ -31,7 +31,7 @@ class AttendanceDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> attendanceSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 fun attendanceDaoToModel(dao: AttendanceDAO) = Attendance(
     dao.employeeId,

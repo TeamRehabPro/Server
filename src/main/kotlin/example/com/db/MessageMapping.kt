@@ -29,7 +29,7 @@ class MessageDAO(id: EntityID<Int>) : IntEntity(id) {
 }
 
 suspend fun <T> messageSuspendTransaction(block: Transaction.() -> T): T =
-    newSuspendedTransaction(Dispatchers.IO, statement = block)
+    runSuspendTransaction(block)
 
 fun messageDaoToModel(dao: MessageDAO) = Message(
     dao.sender,
